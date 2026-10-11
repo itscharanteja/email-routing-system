@@ -4,12 +4,22 @@ A minimal, readable implementation of the email routing flowchart.
 
 ## Architecture
 
-```
-Email Webhook ➔ FastAPI ➔ Lightweight Model
-                           ├─ Confident  ➔ Team Queue
-                           └─ Uncertain  ➔ OpenAI LLM
-                                           ├─ Confident ➔ Team Queue
-                                           └─ Uncertain ➔ Review Queue ➔ Human ➔ Training Data
+```mermaid
+flowchart TD
+    EP["Email Provider"] --> WH["Webhook / Email ingestion"]
+    WH --> FA["FastAPI"]
+    FA --> EPS["Email Processing Service"]
+    EPS --> LM{"Lightweight Model"}
+
+    LM -- "confident" --> TQ1["Team Queue"]
+    LM -- "uncertain" --> LLM{"LLM API (OpenAI)"}
+
+    LLM -- "confident" --> TQ2["Team Queue"]
+    LLM -- "uncertain" --> RQ["Review Queue"]
+
+    RQ --> H["Human"]
+    H --> TD["Training Data"]
+    TD -. "Retraining loop" .-> LM
 ```
 
 ## How It Works
