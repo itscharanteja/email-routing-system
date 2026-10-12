@@ -37,7 +37,7 @@ flowchart TD
 
 Run both servers with a single command:
 ```bash
-cd /Users/charansriteja/.gemini/antigravity/scratch/email-routing-system
+cd ~/Documents/email-routing-system
 ./start.sh
 ```
 
